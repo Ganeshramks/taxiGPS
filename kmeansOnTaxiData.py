@@ -9,7 +9,7 @@ _Radius = 6371
 
 fileName = 'trainSubsetNoHeaders.csv'
 #For calculating progress percentage please specify lineCount of the file:'fileName'
-lineCount = 50000
+lineCount = 70000
 
 f = open(fileName, 'r')
 
