@@ -63,7 +63,7 @@ f.close()
 #1. The data is not whitened as the spread of overall data is not too high 
 #2. Update 'color' vector with more colors when specifying _ClusterNo more than 10
 
-_ClusterNo = 5
+_ClusterNo = 10
 color = ['r','g','b','y','#009688','#673AB7', '#FF5722','k','#BCBBC1','#82B53F']
 clusterGroup = []
 
