@@ -1,29 +1,50 @@
 import ast
-import math
+import math,sys
 import matplotlib.pyplot as matplot 
 
-_Radius = 6371000
+_Radius = 6371
 
-f = open('trainData.csv', 'r')
-i=0
+fileName = 'trainSubsetNoHeaders.csv'
+
+f = open(fileName, 'r')
+
 cartList = []
+i=0
+temp = 0;
 for line in f:
 	splitLine = line.split('",')
+	i+=1
+	percent = int(i/30)
+	if percent>temp:
+		temp = percent
+		sys.stdout.write("\r%d%%" % percent)
+		sys.stdout.flush()
+
 	listOfCoords = ast.literal_eval(splitLine[8])
-	strs = listOfCoords.replace('[','').split('],')
-	lists = [map(float, s.replace(']','').split(',')) for s in strs]	
-	#print lists
-	#print type(lists)
+
+	if len(listOfCoords)>2:
+		strs = listOfCoords.replace('[','').split('],')
+		try:
+			lists = [map(float, s.replace(']','').split(',')) for s in strs]
+		except ValueError, Err:
+			print "\n"	
+			print "Error"
+			print e	
+			print "__splitline[8]__"
+			print splitLine[8]
+			print "List of coords:"
+			print listOfCoords
+			print len(listOfCoords)
+			print type(listOfCoords)
+			break
+
 	for coord in lists:
-		l = []
 		xcoord = _Radius*math.cos(coord[0]*math.pi/360)*math.cos(coord[1]*math.pi/360)
 		ycoord = _Radius*math.cos(coord[0]*math.pi/360)*math.sin(coord[1]*math.pi/360)
-		l.append(xcoord)
-		l.append(ycoord)
-		cartList.append(l)
 		matplot.scatter(xcoord, ycoord)
 
-		#print "coordinates"
-print cartList
+
+matplot.xlabel("X-axis (km)")
+matplot.ylabel("Y-axis (km)")
 matplot.show()	
 f.close()
